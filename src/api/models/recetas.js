@@ -31,6 +31,10 @@ const recetasSchema = new mongoose.Schema(
     imagen: {
       type: String,
       required: true
+    },
+    imagenId: {
+      type: String,
+      required: true
     }
   },
   {

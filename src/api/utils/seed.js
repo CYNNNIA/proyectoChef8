@@ -18,11 +18,11 @@ const seedData = async () => {
   await Receta.deleteMany({})
 
   const chefImages = await Promise.all([
-    cloudinary.uploader.upload('./assets/gordon.jpg'),
-    cloudinary.uploader.upload('./assets/jamie.jpg'),
-    cloudinary.uploader.upload('./assets/ina.jpg'),
-    cloudinary.uploader.upload('./assets/nigella.jpg'),
-    cloudinary.uploader.upload('./assets/anthony.jpg')
+    cloudinary.uploader.upload('./assets/gordon.jpg', { folder: 'chefs' }),
+    cloudinary.uploader.upload('./assets/jamie.jpg', { folder: 'chefs' }),
+    cloudinary.uploader.upload('./assets/ina.jpg', { folder: 'chefs' }),
+    cloudinary.uploader.upload('./assets/nigella.jpg', { folder: 'chefs' }),
+    cloudinary.uploader.upload('./assets/anthony.jpg', { folder: 'chefs' })
   ])
 
   console.log('Contenido completo de chefImages:', chefImages)
@@ -56,15 +56,15 @@ const seedData = async () => {
   ])
 
   const recipeImages = await Promise.all([
-    cloudinary.uploader.upload('./assets/spaguetti.jpg'),
-    cloudinary.uploader.upload('./assets/tarta.jpg'),
-    cloudinary.uploader.upload('./assets/huevos.jpg'),
-    cloudinary.uploader.upload('./assets/paella.jpg'),
-    cloudinary.uploader.upload('./assets/brownie.jpg'),
-    cloudinary.uploader.upload('./assets/calabaza.jpg'),
-    cloudinary.uploader.upload('./assets/pancakes.jpg'),
-    cloudinary.uploader.upload('./assets/noodles.jpeg'),
-    cloudinary.uploader.upload('./assets/pollo.jpg')
+    cloudinary.uploader.upload('./assets/spaguetti.jpg', { folder: 'recipes' }),
+    cloudinary.uploader.upload('./assets/tarta.jpg', { folder: 'recipes' }),
+    cloudinary.uploader.upload('./assets/huevos.jpg', { folder: 'recipes' }),
+    cloudinary.uploader.upload('./assets/paella.jpg', { folder: 'recipes' }),
+    cloudinary.uploader.upload('./assets/brownie.jpg', { folder: 'recipes' }),
+    cloudinary.uploader.upload('./assets/calabaza.jpg', { folder: 'recipes' }),
+    cloudinary.uploader.upload('./assets/pancakes.jpg', { folder: 'recipes' }),
+    cloudinary.uploader.upload('./assets/noodles.jpeg', { folder: 'recipes' }),
+    cloudinary.uploader.upload('./assets/pollo.jpg', { folder: 'recipes' })
   ])
 
   console.log(

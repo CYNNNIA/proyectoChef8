@@ -13,6 +13,10 @@ const chefSchema = new mongoose.Schema(
     profileImage: {
       type: String,
       required: true
+    },
+    profileImageId: {
+      type: String,
+      required: true
     }
   },
   { timestamps: true, collection: 'chefs' }
