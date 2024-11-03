@@ -44,7 +44,7 @@ Este proyecto es una API RESTful para gestionar chefs y recetas. Utiliza Node.js
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/CYNNNIA/PROYECTO8.git
+   git clone https://github.com/CYNNNIA/proyectoChef8.git
    ```
 
 2. Instala las dependencias:
