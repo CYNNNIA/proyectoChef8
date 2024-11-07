@@ -1,5 +1,5 @@
 const Chef = require('../models/chef')
-const cloudinary = require('cloudinary').v2
+const { cloudinary, upload } = require('../config/cloudinary')
 
 const getChefs = async (req, res) => {
   try {
@@ -12,12 +12,10 @@ const getChefs = async (req, res) => {
 
 const postChef = async (req, res) => {
   try {
-    // Subir imagen a Cloudinary y obtener URL y public_id
-    const result = await cloudinary.uploader.upload(req.body.profileImage, {
+    const result = await cloudinary.uploader.upload(req.file.path, {
       folder: 'chefs'
     })
 
-    // Crear nuevo chef con la URL de la imagen y el public_id
     const chef = new Chef({
       ...req.body,
       profileImage: result.secure_url,
@@ -31,19 +29,42 @@ const postChef = async (req, res) => {
   }
 }
 
+const updateChef = async (req, res) => {
+  try {
+    const { id } = req.params
+    const chef = await Chef.findById(id)
+
+    if (!chef) return res.status(404).json({ message: 'Chef no encontrado' })
+
+    if (req.file) {
+      if (chef.profileImageId)
+        await cloudinary.uploader.destroy(chef.profileImageId)
+
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'chefs'
+      })
+      req.body.profileImage = result.secure_url
+      req.body.profileImageId = result.public_id
+    }
+
+    const updatedChef = await Chef.findByIdAndUpdate(id, req.body, {
+      new: true
+    })
+    return res.status(200).json(updatedChef)
+  } catch (error) {
+    return res.status(400).json({ message: 'Error en la solicitud' })
+  }
+}
+
 const deleteChef = async (req, res) => {
   try {
     const { id } = req.params
     const chef = await Chef.findById(id)
 
-    if (!chef) {
-      return res.status(404).json({ message: 'Chef no encontrado' })
-    }
+    if (!chef) return res.status(404).json({ message: 'Chef no encontrado' })
 
-    // Eliminar imagen de Cloudinary
-    if (chef.profileImageId) {
+    if (chef.profileImageId)
       await cloudinary.uploader.destroy(chef.profileImageId)
-    }
 
     await chef.remove()
     return res.status(204).json({ message: 'Chef eliminado' })
@@ -54,6 +75,7 @@ const deleteChef = async (req, res) => {
 
 module.exports = {
   getChefs,
-  postChef,
+  postChef: [upload.single('profileImage'), postChef],
+  updateChef: [upload.single('profileImage'), updateChef],
   deleteChef
 }

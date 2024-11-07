@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "seed": "node /Users/cynn/Desktop/proyectoChef8/src/api/utils/seed.js"
+    "seed": "node ./src/api/utils/seed.js"
   },
   "keywords": [],
   "author": "",
