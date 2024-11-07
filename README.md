@@ -22,6 +22,7 @@ Este proyecto es una API RESTful para gestionar chefs y recetas. Utiliza Node.js
 - Base de datos alojada en MongoDB Atlas.
 - Relación entre chefs y recetas (cada receta tiene un chef asociado).
 - Limpieza automática de archivos en Cloudinary cuando se elimina un dato.
+- IP pública configurada para MongoDB Atlas (0.0.0.0/0).
 
 ## Tecnologías
 
@@ -70,20 +71,20 @@ PORT=3000
 
 ## Estructura del Proyecto
 
-```plaintext
 proyectoChef8/
-├── assets/               # Carpeta con las imágenes locales para pruebas
+├── assets/ # Carpeta con las imágenes locales para pruebas
 ├── src/
-│   ├── api/
-│   │   ├── controllers/  # Controladores de chefs y recetas
-│   │   ├── models/       # Modelos de Mongoose para chefs y recetas
-│   │   ├── routes/       # Rutas de la API
-│   │   └── utils/        # Archivos de utilidad, como seed.js
-│   └── config/           # Configuración de la base de datos y Cloudinary
-├── .env                  # Variables de entorno
-├── README.md             # Documentación
-└── package.json          # Dependencias y scripts
-```
+│ ├── api/
+│ │ ├── controllers/ # Controladores de chefs y recetas
+│ │ ├── models/ # Modelos de Mongoose para chefs y recetas
+│ │ ├── routes/ # Rutas de la API
+│ │ └── utils/ # Archivos de utilidad, como seed.js
+│ └── config/ # Configuración de la base de datos y Cloudinary
+├── .env # Variables de entorno
+├── README.md # Documentación
+└── package.json # Dependencias y scripts
+
+````
 
 ## Uso
 
@@ -93,7 +94,7 @@ Para iniciar el servidor en modo desarrollo:
 
 ```bash
 npm run dev
-```
+````
 
 El servidor se ejecutará en `http://localhost:3000`.
 
