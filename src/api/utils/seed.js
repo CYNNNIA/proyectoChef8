@@ -3,13 +3,7 @@ const mongoose = require('mongoose')
 const connectDB = require('../../config/db')
 const Chef = require('../models/chef')
 const Receta = require('../models/recetas')
-const cloudinary = require('cloudinary').v2
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-})
+const cloudinary = require('../../config/cloudinary').cloudinary
 
 const seedData = async () => {
   await connectDB()
@@ -17,6 +11,7 @@ const seedData = async () => {
   await Chef.deleteMany({})
   await Receta.deleteMany({})
 
+  // Subir imágenes de chefs a Cloudinary
   const chefImages = await Promise.all([
     cloudinary.uploader.upload('./assets/gordon.jpg', { folder: 'chefs' }),
     cloudinary.uploader.upload('./assets/jamie.jpg', { folder: 'chefs' }),
@@ -27,34 +22,41 @@ const seedData = async () => {
 
   console.log('Contenido completo de chefImages:', chefImages)
 
+  // Crear chefs con URLs de Cloudinary
   const chefs = await Chef.create([
     {
       nombre: 'Gordon Ramsay',
       experiencia: 20,
-      profileImage: chefImages[0].secure_url
+      profileImage: chefImages[0].secure_url,
+      profileImageId: chefImages[0].public_id
     },
     {
       nombre: 'Jamie Oliver',
       experiencia: 15,
-      profileImage: chefImages[1].secure_url
+      profileImage: chefImages[1].secure_url,
+      profileImageId: chefImages[1].public_id
     },
     {
       nombre: 'Ina Garten',
       experiencia: 30,
-      profileImage: chefImages[2].secure_url
+      profileImage: chefImages[2].secure_url,
+      profileImageId: chefImages[2].public_id
     },
     {
       nombre: 'Nigella Lawson',
       experiencia: 25,
-      profileImage: chefImages[3].secure_url
+      profileImage: chefImages[3].secure_url,
+      profileImageId: chefImages[3].public_id
     },
     {
       nombre: 'Anthony Bourdain',
       experiencia: 22,
-      profileImage: chefImages[4].secure_url
+      profileImage: chefImages[4].secure_url,
+      profileImageId: chefImages[4].public_id
     }
   ])
 
+  // Subir imágenes de recetas a Cloudinary
   const recipeImages = await Promise.all([
     cloudinary.uploader.upload('./assets/spaguetti.jpg', { folder: 'recipes' }),
     cloudinary.uploader.upload('./assets/tarta.jpg', { folder: 'recipes' }),
@@ -72,6 +74,7 @@ const seedData = async () => {
     recipeImages.map((img) => img.secure_url)
   )
 
+  // Crear recetas con URLs de Cloudinary
   await Receta.create([
     {
       nombre: 'Spaghetti Carbonara',
@@ -80,7 +83,8 @@ const seedData = async () => {
       tiempo: 20,
       categoria: 'Cena',
       chef: chefs[0]._id,
-      imagen: recipeImages[0].secure_url
+      imagen: recipeImages[0].secure_url,
+      imagenId: recipeImages[0].public_id
     },
     {
       nombre: 'Tarta de Queso',
@@ -90,7 +94,8 @@ const seedData = async () => {
       tiempo: 60,
       categoria: 'Merienda',
       chef: chefs[2]._id,
-      imagen: recipeImages[1].secure_url
+      imagen: recipeImages[1].secure_url,
+      imagenId: recipeImages[1].public_id
     },
     {
       nombre: 'Huevos Benedictinos',
@@ -99,7 +104,8 @@ const seedData = async () => {
       tiempo: 15,
       categoria: 'Desayuno',
       chef: chefs[3]._id,
-      imagen: recipeImages[2].secure_url
+      imagen: recipeImages[2].secure_url,
+      imagenId: recipeImages[2].public_id
     },
     {
       nombre: 'Paella de Mariscos',
@@ -115,7 +121,8 @@ const seedData = async () => {
       tiempo: 45,
       categoria: 'Almuerzo',
       chef: chefs[4]._id,
-      imagen: recipeImages[3].secure_url
+      imagen: recipeImages[3].secure_url,
+      imagenId: recipeImages[3].public_id
     },
     {
       nombre: 'Brownies de Chocolate',
@@ -125,7 +132,8 @@ const seedData = async () => {
       tiempo: 30,
       categoria: 'Merienda',
       chef: chefs[0]._id,
-      imagen: recipeImages[4].secure_url
+      imagen: recipeImages[4].secure_url,
+      imagenId: recipeImages[4].public_id
     },
     {
       nombre: 'Sopa de Calabaza',
@@ -140,7 +148,8 @@ const seedData = async () => {
       tiempo: 25,
       categoria: 'Cena',
       chef: chefs[2]._id,
-      imagen: recipeImages[5].secure_url
+      imagen: recipeImages[5].secure_url,
+      imagenId: recipeImages[5].public_id
     },
     {
       nombre: 'Panqueques con Frutas',
@@ -149,7 +158,8 @@ const seedData = async () => {
       tiempo: 15,
       categoria: 'Desayuno',
       chef: chefs[1]._id,
-      imagen: recipeImages[6].secure_url
+      imagen: recipeImages[6].secure_url,
+      imagenId: recipeImages[6].public_id
     },
     {
       nombre: 'Fideos con Verduras',
@@ -164,7 +174,8 @@ const seedData = async () => {
       tiempo: 20,
       categoria: 'Almuerzo',
       chef: chefs[3]._id,
-      imagen: recipeImages[7].secure_url
+      imagen: recipeImages[7].secure_url,
+      imagenId: recipeImages[7].public_id
     },
     {
       nombre: 'Pollo al Curry',
@@ -180,7 +191,8 @@ const seedData = async () => {
       tiempo: 35,
       categoria: 'Cena',
       chef: chefs[4]._id,
-      imagen: recipeImages[8].secure_url
+      imagen: recipeImages[8].secure_url,
+      imagenId: recipeImages[8].public_id
     }
   ])
 

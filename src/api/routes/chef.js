@@ -1,10 +1,17 @@
 const express = require('express')
-const { getChefs, postChef, deleteChef } = require('../controllers/chef')
+const {
+  postChef,
+  getChefs,
+  deleteChef,
+  updateChef
+} = require('../controllers/chef')
+const upload = require('../../middlewares/upload')
 
-const chefRouter = express.Router()
+const router = express.Router()
 
-chefRouter.get('/', getChefs)
-chefRouter.post('/', postChef)
-chefRouter.delete('/:id', deleteChef)
+router.get('/', getChefs)
+router.post('/', upload.single('profileImage'), postChef)
+router.put('/:id', upload.single('profileImage'), updateChef)
+router.delete('/:id', deleteChef)
 
-module.exports = chefRouter
+module.exports = router

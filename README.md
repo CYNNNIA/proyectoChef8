@@ -31,8 +31,7 @@ Este proyecto es una API RESTful para gestionar chefs y recetas. Utiliza Node.js
 - **MongoDB Atlas**
 - **Mongoose**
 - **Cloudinary**
-- **Multer** (para el manejo de archivos)
-- **dotenv**
+- **Multer**
 
 ## Requisitos
 
@@ -71,20 +70,23 @@ PORT=3000
 
 ## Estructura del Proyecto
 
+```plaintext
 proyectoChef8/
-├── assets/ # Carpeta con las imágenes locales para pruebas
+├── assets/                  # Carpeta con las imágenes locales para pruebas
 ├── src/
-│ ├── api/
-│ │ ├── controllers/ # Controladores de chefs y recetas
-│ │ ├── models/ # Modelos de Mongoose para chefs y recetas
-│ │ ├── routes/ # Rutas de la API
-│ │ └── utils/ # Archivos de utilidad, como seed.js
-│ └── config/ # Configuración de la base de datos y Cloudinary
-├── .env # Variables de entorno
-├── README.md # Documentación
-└── package.json # Dependencias y scripts
+│   ├── api/
+│   │   ├── controllers/     # Controladores de chefs y recetas
+│   │   ├── models/          # Modelos de Mongoose para chefs y recetas
+│   │   ├── routes/          # Rutas de la API
+│   │   └── utils/           # Archivos de utilidad, como seed.js
+│   ├── config/              # Configuración de la base de datos y Cloudinary
+│   └── middlewares/         # Middleware de subida de archivos con multer
+├── .env                     # Variables de entorno
+├── README.md                # Documentación
+└── package.json             # Dependencias y scripts
 
-````
+
+```
 
 ## Uso
 
@@ -94,7 +96,7 @@ Para iniciar el servidor en modo desarrollo:
 
 ```bash
 npm run dev
-````
+```
 
 El servidor se ejecutará en `http://localhost:3000`.
 

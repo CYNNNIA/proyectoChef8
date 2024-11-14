@@ -1,5 +1,5 @@
 const Chef = require('../models/chef')
-const { cloudinary, upload } = require('../config/cloudinary')
+const { cloudinary } = require('../../config/cloudinary')
 
 const getChefs = async (req, res) => {
   try {
@@ -75,7 +75,7 @@ const deleteChef = async (req, res) => {
 
 module.exports = {
   getChefs,
-  postChef: [upload.single('profileImage'), postChef],
-  updateChef: [upload.single('profileImage'), updateChef],
+  postChef,
+  updateChef,
   deleteChef
 }

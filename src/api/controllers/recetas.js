@@ -1,9 +1,64 @@
+// src/api/controllers/recetas.js
 const Receta = require('../models/recetas')
-const { cloudinary, upload } = require('../config/cloudinary')
+const cloudinary = require('../../config/cloudinary')
 
 const getRecetas = async (req, res) => {
   try {
     const recetas = await Receta.find().populate('chef')
+    return res.status(200).json(recetas)
+  } catch (error) {
+    return res.status(400).json({ message: 'Error en la solicitud' })
+  }
+}
+
+const getRecetaById = async (req, res) => {
+  try {
+    const { id } = req.params
+    const receta = await Receta.findById(id).populate('chef')
+    if (!receta)
+      return res.status(404).json({ message: 'Receta no encontrada' })
+    return res.status(200).json(receta)
+  } catch (error) {
+    return res.status(400).json({ message: 'Error en la solicitud' })
+  }
+}
+
+const getRecetaByCategoria = async (req, res) => {
+  try {
+    const { categoria } = req.params
+    const recetas = await Receta.find({ categoria })
+    return res.status(200).json(recetas)
+  } catch (error) {
+    return res.status(400).json({ message: 'Error en la solicitud' })
+  }
+}
+
+const getRecetaByIngredientes = async (req, res) => {
+  try {
+    const { ingredientes } = req.params
+    const recetas = await Receta.find({ ingredientes: { $in: ingredientes } })
+    return res.status(200).json(recetas)
+  } catch (error) {
+    return res.status(400).json({ message: 'Error en la solicitud' })
+  }
+}
+
+const getRecetaByPreparacion = async (req, res) => {
+  try {
+    const { preparacion } = req.params
+    const recetas = await Receta.find({
+      preparacion: { $regex: preparacion, $options: 'i' }
+    })
+    return res.status(200).json(recetas)
+  } catch (error) {
+    return res.status(400).json({ message: 'Error en la solicitud' })
+  }
+}
+
+const getRecetaByTiempo = async (req, res) => {
+  try {
+    const { tiempo } = req.params
+    const recetas = await Receta.find({ tiempo: { $lte: tiempo } })
     return res.status(200).json(recetas)
   } catch (error) {
     return res.status(400).json({ message: 'Error en la solicitud' })
@@ -22,14 +77,14 @@ const postReceta = async (req, res) => {
       imagenId: result.public_id
     })
 
-    const recetaSaved = await receta.save()
-    return res.status(201).json(recetaSaved)
+    await receta.save()
+    return res.status(201).json(receta)
   } catch (error) {
     return res.status(400).json({ message: 'Error en la solicitud' })
   }
 }
 
-const updateReceta = async (req, res) => {
+const putReceta = async (req, res) => {
   try {
     const { id } = req.params
     const receta = await Receta.findById(id)
@@ -75,7 +130,12 @@ const deleteReceta = async (req, res) => {
 
 module.exports = {
   getRecetas,
-  postReceta: [upload.single('imagen'), postReceta],
-  updateReceta: [upload.single('imagen'), updateReceta],
+  getRecetaById,
+  getRecetaByCategoria,
+  getRecetaByIngredientes,
+  getRecetaByPreparacion,
+  getRecetaByTiempo,
+  postReceta,
+  putReceta,
   deleteReceta
 }
